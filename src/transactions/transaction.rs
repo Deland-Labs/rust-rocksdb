@@ -13,6 +13,7 @@
 // limitations under the License.
 //
 
+use libc::{c_char, c_void, size_t};
 use std::{marker::PhantomData, ptr};
 
 use crate::{
@@ -20,7 +21,6 @@ use crate::{
     ffi, AsColumnFamilyRef, DBIteratorWithThreadMode, DBPinnableSlice, DBRawIteratorWithThreadMode,
     Direction, Error, IteratorMode, ReadOptions, SnapshotWithThreadMode, WriteBatchWithTransaction,
 };
-use libc::{c_char, c_void, size_t};
 
 /// RocksDB Transaction.
 ///
@@ -28,6 +28,7 @@ use libc::{c_char, c_void, size_t};
 ///
 /// [`TransactionDB`]: crate::TransactionDB
 /// [`OptimisticTransactionDB`]: crate::OptimisticTransactionDB
+#[derive(Clone)]
 pub struct Transaction<'db, DB> {
     pub(crate) inner: *mut ffi::rocksdb_transaction_t,
     pub(crate) _marker: PhantomData<&'db DB>,
